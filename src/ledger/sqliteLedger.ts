@@ -56,6 +56,10 @@ export class SQLiteLedger {
 
   private saveToDisk(): void {
     if (!this.db) return;
+    const dir = path.dirname(this.dbPath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
     const data = this.db.export();
     const buffer = Buffer.from(data);
     fs.writeFileSync(this.dbPath, buffer);
