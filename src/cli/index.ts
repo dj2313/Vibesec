@@ -11,6 +11,8 @@ import { runVerifyCommand } from './commands/verify.js';
 import { runRollbackCommand } from './commands/rollback.js';
 import { protectCommand } from './commands/protect.js';
 import { policyAddCommand } from './commands/policyAdd.js';
+import { scanCommand } from './commands/scan.js';
+import { watchCommand } from './commands/watch.js';
 
 const program = new Command();
 
@@ -91,6 +93,24 @@ program
   .description('Run project verification suite (tests, build, security)')
   .action(async () => {
     await runVerifyCommand();
+  });
+
+program
+  .command('scan')
+  .description('Deep scan codebase for secrets, leaked credentials, and dangerous patterns')
+  .option('-s, --silent', 'Suppress audible alarms and desktop notifications')
+  .option('--max-files <count>', 'Maximum number of files to scan', '2000')
+  .option('--exit-on-error', 'Exit with code 1 if critical issues are found (useful in CI)')
+  .action(async (options) => {
+    await scanCommand({ silent: options.silent, maxFiles: options.maxFiles, exitOnError: options.exitOnError });
+  });
+
+program
+  .command('watch')
+  .description('Start live filesystem guardian that monitors for rogue agent modifications')
+  .option('-s, --silent', 'Suppress audible alarms and desktop notifications')
+  .action(async (options) => {
+    await watchCommand({ silent: options.silent });
   });
 
 program
