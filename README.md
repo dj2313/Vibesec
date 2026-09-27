@@ -6,6 +6,51 @@ VibeSec is a local-first security layer that sits between your AI coding assista
 
 ---
 
+## 💡 Visual System Architecture
+
+```mermaid
+flowchart LR
+    subgraph Agents["🤖 AI Coding Agents"]
+        direction TB
+        A1[Claude Code]
+        A2[Cursor]
+        A3[VS Code / Copilot]
+        A4[Windsurf / Cline]
+    end
+
+    subgraph VibeSec["🛡️ VibeSec Security Firewall"]
+        direction TB
+        B1[Agent Gateway]
+        B2[Policy Engine]
+        B3[Risk Engine]
+        B4{Decision Gate}
+    end
+
+    subgraph Outcome["⚡ Decision Outcome"]
+        direction TB
+        C1["🟢 ALLOW (Safe Code)"]
+        C2["🟡 ASK (Developer Consent)"]
+        C3["🔴 BLOCK (.env / rm -rf)"]
+    end
+
+    subgraph Storage["📁 Ledger & Verification"]
+        direction TB
+        D1[(SQLite Audit Ledger)]
+        D2[Verification & Rollback]
+    end
+
+    Agents -->|Proposed Action| B1
+    B1 --> B2 & B3
+    B2 & B3 --> B4
+    B4 -->|Safe| C1
+    B4 -->|High-Risk| C2
+    B4 -->|Dangerous| C3
+    C1 & C2 & C3 --> D1
+    C1 --> D2
+```
+
+---
+
 ## 💡 What VibeSec Does in 3 Simple Steps
 
 ```
