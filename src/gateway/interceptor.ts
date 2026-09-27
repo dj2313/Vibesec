@@ -5,6 +5,8 @@ import { ActionExecutor, ExecutionResult } from '../execution/actionExecutor.js'
 import { SQLiteLedger } from '../ledger/sqliteLedger.js';
 import { AgentAdapter, RawAgentPayload } from './agentAdapter.js';
 import { AgentAction, AuditLogEntry, SecurityDecision } from '../types/domain.js';
+import { playAlertSound } from '../utils/soundAlert.js';
+import { sendDesktopNotification } from '../utils/notifier.js';
 
 export type AskUserHandler = (action: AgentAction, reason: string) => Promise<boolean>;
 
@@ -17,6 +19,7 @@ export class VibeSecInterceptor {
   private ledger: SQLiteLedger;
   private askUserHandler?: AskUserHandler;
   private projectId: string;
+  private silent: boolean;
 
   constructor(options?: {
     projectId?: string;
@@ -24,8 +27,10 @@ export class VibeSecInterceptor {
     policyEngine?: PolicyEngine;
     askUserHandler?: AskUserHandler;
     workingDir?: string;
+    silent?: boolean;
   }) {
     this.projectId = options?.projectId || 'default-project';
+    this.silent = options?.silent ?? true; // Default to silent in programmatic instantiations unless enabled
     this.stateMachine = new VibeSecStateMachine('START');
     this.adapter = new AgentAdapter();
     this.policyEngine = options?.policyEngine || new PolicyEngine();
@@ -76,6 +81,16 @@ export class VibeSecInterceptor {
       isApproved = true;
       this.stateMachine.transitionTo('EXECUTING');
     } else if (finalDecision.decision === 'ask') {
+      // Trigger warning chime and desktop notice
+      if (!this.silent) {
+        playAlertSound({ type: 'warning' });
+        sendDesktopNotification({
+          title: '⚠️ VibeSec Approval Required',
+          message: `Agent ${action.agent} requested action on ${action.target || 'command'}`,
+          level: 'warning',
+        });
+      }
+
       this.stateMachine.transitionTo('WAITING_FOR_APPROVAL');
       if (this.askUserHandler) {
         isApproved = await this.askUserHandler(action, finalDecision.reason);
@@ -94,7 +109,15 @@ export class VibeSecInterceptor {
         this.stateMachine.transitionTo('BLOCKED');
       }
     } else {
-      // BLOCK decision
+      // BLOCK decision: Trigger loud siren alarm & critical desktop alert
+      if (!this.silent) {
+        playAlertSound({ type: 'siren' });
+        sendDesktopNotification({
+          title: '🚨 VibeSec Security Alert: BLOCKED',
+          message: `Blocked ${action.agent} from accessing ${action.target || 'system'}!`,
+          level: 'critical',
+        });
+      }
       this.stateMachine.transitionTo('BLOCKED');
     }
 
