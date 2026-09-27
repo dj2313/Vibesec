@@ -1,6 +1,12 @@
 # VibeSec 🛡️
 
-> **The Security & Control Firewall for AI Coding Agents** (Claude Code, Cursor, Codex)
+[![CI](https://github.com/dj2313/Vibesec/actions/workflows/ci.yml/badge.svg)](https://github.com/dj2313/Vibesec/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node: >=18](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org)
+[![Storage: SQLite](https://img.shields.io/badge/storage-SQLite-blue.svg)](https://www.sqlite.org)
+[![Tests: 42 Passing](https://img.shields.io/badge/tests-42%20passing-success.svg)](https://github.com/dj2313/Vibesec)
+
+> **The Security & Control Firewall for AI Coding Agents** (Claude Code, Cursor, Codex, Windsurf, Cline)
 
 VibeSec is a local-first security layer that sits between your AI coding assistant and your computer. It ensures your AI agent can read and write code safely without leaking secrets, deleting files, or pushing unauthorized changes.
 
