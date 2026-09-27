@@ -1,4 +1,4 @@
-export type AgentType = 'claude-code' | 'cursor' | 'codex' | 'generic';
+export type AgentType = 'claude-code' | 'cursor' | 'codex' | 'vscode' | 'windsurf' | 'live-watcher' | 'generic';
 
 export type ActionType = 
   | 'read_file' 
