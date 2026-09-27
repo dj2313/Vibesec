@@ -41,6 +41,7 @@ program
   .option('-a, --agent <type>', 'Specify agent name (claude-code, cursor, codex, vscode, windsurf)', 'claude-code')
   .option('-r, --read <file>', 'Simulate reading a target file')
   .option('-w, --write <file>', 'Simulate writing a target file')
+  .option('-s, --silent', 'Mute audible alarm and desktop notifications')
   .action(async (commandArgs, options) => {
     const cmdStr = Array.isArray(commandArgs) ? commandArgs.join(' ') : commandArgs || '';
     await execCommand(cmdStr, options);

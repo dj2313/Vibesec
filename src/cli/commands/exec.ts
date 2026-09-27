@@ -6,7 +6,7 @@ import { PolicyEngine } from '../../policy/policyEngine.js';
 
 export async function execCommand(
   actionString: string,
-  options: { agent?: string; read?: string; write?: string },
+  options: { agent?: string; read?: string; write?: string; silent?: boolean },
   projectDir: string = process.cwd()
 ): Promise<void> {
   const vibesecDir = path.join(projectDir, '.vibesec');
@@ -28,6 +28,7 @@ export async function execCommand(
     projectId: path.basename(projectDir),
     dbPath: dbFile,
     policyEngine,
+    silent: options.silent ?? false,
     askUserHandler: async (action, reason) => {
       console.log(`\n\x1b[33m⚠ Approval Required by Policy\x1b[0m`);
       console.log(`Agent:   \x1b[36m${action.agent}\x1b[0m`);
