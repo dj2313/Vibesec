@@ -1,0 +1,32 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# VibeSec local databases & logs (Do not commit user databases or logs)
+.vibesec/
+*.db
+*.db-journal
+*.log
+
+# Environment files & secrets
+.env
+.env.*
+!.env.example
+
+# IDE & OS settings
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+.vitest/
