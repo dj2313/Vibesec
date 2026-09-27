@@ -1,0 +1,112 @@
+{
+  "name": "vibesec",
+  "displayName": "VibeSec — AI Agent Security Guard",
+  "description": "Real-time security control layer for AI coding agents (Claude Code, Cursor, Codex, Windsurf). Intercept, audit, and block dangerous agent actions.",
+  "version": "0.1.0",
+  "publisher": "vibesec",
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other", "Linters"],
+  "keywords": ["security", "ai-agent", "claude-code", "cursor", "policy", "audit"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vibesec-sidebar",
+          "title": "VibeSec",
+          "icon": "media/shield.svg"
+        }
+      ]
+    },
+    "views": {
+      "vibesec-sidebar": [
+        {
+          "type": "webview",
+          "id": "vibesec.sidebarView",
+          "name": "VibeSec"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "vibesec.openDashboard",
+        "title": "VibeSec: Open Security Dashboard",
+        "icon": "$(shield)"
+      },
+      {
+        "command": "vibesec.runScan",
+        "title": "VibeSec: Run Security Scan",
+        "icon": "$(search)"
+      },
+      {
+        "command": "vibesec.startWatch",
+        "title": "VibeSec: Start Live Guardian",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "vibesec.stopWatch",
+        "title": "VibeSec: Stop Live Guardian",
+        "icon": "$(eye-closed)"
+      },
+      {
+        "command": "vibesec.showLogs",
+        "title": "VibeSec: Show Audit Logs",
+        "icon": "$(list-unordered)"
+      },
+      {
+        "command": "vibesec.showPolicy",
+        "title": "VibeSec: Show Policy Rules",
+        "icon": "$(law)"
+      },
+      {
+        "command": "vibesec.init",
+        "title": "VibeSec: Initialize Project",
+        "icon": "$(add)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "vibesec.openDashboard",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "VibeSec",
+      "properties": {
+        "vibesec.silent": {
+          "type": "boolean",
+          "default": false,
+          "description": "Mute audible alarm sounds (desktop notifications will still show)"
+        },
+        "vibesec.autoWatch": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically start Live Guardian when VS Code opens"
+        },
+        "vibesec.refreshInterval": {
+          "type": "number",
+          "default": 3000,
+          "description": "Dashboard refresh interval in milliseconds"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "npx @vscode/vsce package"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.7.3"
+  }
+}
