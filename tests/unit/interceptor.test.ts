@@ -46,9 +46,12 @@ describe('VibeSecInterceptor', () => {
   it('triggers ask handler and approves action if user consents', async () => {
     interceptor.setAskUserHandler(async () => true);
 
+    // Use a command that triggers 'ask' via policy but is safe to execute.
+    // `git push --force` would hang in CI (no remote credentials), so we use
+    // `echo DROP DATABASE` which matches the ask-db-drop rule and is harmless.
     const res = await interceptor.processAction({
       agent: 'codex',
-      command: 'git push origin main --force',
+      command: 'echo DROP DATABASE',
     });
 
     expect(res.decision.decision).toBe('allow');
