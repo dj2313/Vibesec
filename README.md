@@ -37,6 +37,13 @@ Modern coding agents run with **ambient authority**: one prompt, and the blast r
 
 ---
 
+## Demo
+
+> **TODO:** Add a 10-second GIF here showing `vibesec init` → `vibesec exec "rm -rf /"` → BLOCKED.
+> Record with [terminal-gif](https://github.com/asciinema/asciinema) or [LICEcap](https://www.cockos.com/licecap/).
+
+---
+
 ## See it work
 
 This is the real output, after `vibesec init`:
@@ -117,6 +124,38 @@ Then protect any project:
 cd /your/project
 vibesec init
 ```
+
+---
+
+## Quick Start — See Your First Block in 60 Seconds
+
+```bash
+# 1. Install VibeSec
+git clone https://github.com/dj2313/Vibesec.git
+cd Vibesec
+npm install && npm run build && npm link
+
+# 2. Initialize in any project
+cd /your/project
+vibesec init
+
+# 3. Try to read a secret — BLOCKED
+vibesec exec -r .env
+# ✖ Action BLOCKED by VibeSec Policy!
+
+# 4. Try to delete everything — BLOCKED
+vibesec exec "rm -rf /"
+# ✖ Action BLOCKED by VibeSec Policy!
+
+# 5. Run a safe command — ALLOWED
+vibesec exec "node -v"
+# ✔ Action ALLOWED by VibeSec Policy
+
+# 6. See your audit trail
+vibesec logs
+```
+
+That's it. VibeSec is now standing between your AI agent and your machine.
 
 <details>
 <summary><b>VS Code extension</b> (sidebar, dashboard, status bar, live guardian)</summary>
@@ -304,7 +343,7 @@ These are the rules the codebase is written against, from [`docs/AGENTS.md`](doc
 | Auto-verify after changes | 🔴 Manual | State machine supports it; nothing drives it yet |
 | Checkpoint recovery | 🟡 Partial | `rollback` runs `git reset --hard` — **it can destroy uncommitted work** |
 | VS Code extension | 🟡 Alpha | Requires a built CLI inside the workspace |
-| Test suite | 🟡 47/50 | 3 failures on `main`, tracked in [open issues](#-contributing) |
+| Test suite | 🟢 50/50 | All tests passing on `main` |
 
 **Do not use VibeSec as your only safety net on a project you can't restore from `git`.** Use it as a second layer.
 
@@ -325,11 +364,13 @@ The honest summary: **guardrails are documentation, sandboxes are isolation, Vib
 
 ---
 
-## 🗺️ Roadmap
+## What's Next
 
-Shipped: policy engine · risk engine · decision gate · audit ledger · secret scrubber · project scanner · live watcher · CLI · VS Code extension (alpha)
+> **#1 Priority: Real agent interception.** VibeSec currently simulates the agent's request via `exec`. The next milestone is hook-based adapters that sit in the actual action path — so VibeSec isn't a gate you route commands through, but a gate that's *already in the way*.
 
-Next, in priority order:
+**Shipped:** policy engine · risk engine · decision gate · audit ledger · secret scrubber · project scanner · live watcher · CLI · VS Code extension (alpha)
+
+**On the roadmap:**
 
 - [ ] **Real agent interception** — hook-based adapters so VibeSec sits in the actual action path, not a simulation
 - [ ] **Windsurf / Cline / VS Code adapters** — complete the adapter matrix
@@ -348,7 +389,7 @@ VibeSec is early and the roadmap is public. The highest-value contributions righ
 
 - **Agent adapters** — the integration surface is the product. See `src/gateway/agentAdapter.ts`.
 - **Policy rules** — new threat patterns belong in `DEFAULT_POLICY_CONFIG` with allow/ask/block tests for each.
-- **Fix a red test** — three are failing on `main`; the cause is documented in `docs/`.
+- **Add a policy rule** — new threat patterns belong in `DEFAULT_POLICY_CONFIG` with allow/ask/block tests for each.
 
 ```bash
 git clone https://github.com/dj2313/Vibesec.git
