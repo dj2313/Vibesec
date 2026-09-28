@@ -13,9 +13,17 @@ describe('CLI Commands End-to-End Integration', () => {
     }
   });
 
-  afterEach(() => {
+  afterEach(async () => {
+    // Add delay to allow any child processes to fully exit and release file handles
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
     if (fs.existsSync(testProjectDir)) {
-      fs.rmSync(testProjectDir, { recursive: true, force: true });
+      try {
+        fs.rmSync(testProjectDir, { recursive: true, force: true, maxRetries: 3 });
+      } catch (error) {
+        // Log but don't fail the test suite on cleanup errors
+        console.warn(`Cleanup warning: ${error}`);
+      }
     }
   });
 
