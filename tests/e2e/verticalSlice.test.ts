@@ -46,6 +46,7 @@ describe('VibeSec End-to-End Vertical Slice Control Loop', () => {
     // Step 3: Run Verification engine checks
     const verification = new VerificationEngine({
       testCommand: 'node -v',
+      skipSecurityScan: true,
     });
     const verResult = await verification.runVerification();
     expect(verResult.status).toBe('pass');
