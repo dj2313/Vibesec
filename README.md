@@ -39,9 +39,9 @@ Modern coding agents run with **ambient authority**: one prompt, and the blast r
 
 ## Demo
 
-https://github.com/dj2313/Vibesec/blob/main/docs/demo/vibesec-demo.mp4
+![VibeSec Demo](docs/demo/vibesec-demo.gif)
 
-> **Watch the demo** — VibeSec in action: policy engine evaluating actions, blocking dangerous commands, and logging to the audit ledger.
+> **VibeSec in action** — policy engine evaluating actions, blocking dangerous commands, and logging to the audit ledger.
 
 ---
 
