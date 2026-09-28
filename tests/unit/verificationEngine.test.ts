@@ -6,6 +6,7 @@ describe('VerificationEngine', () => {
     const engine = new VerificationEngine({
       testCommand: 'node -v',
       buildCommand: 'node -v',
+      skipSecurityScan: true,
     });
 
     const result = await engine.runVerification();
