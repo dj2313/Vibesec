@@ -39,8 +39,9 @@ Modern coding agents run with **ambient authority**: one prompt, and the blast r
 
 ## Demo
 
-> **TODO:** Add a 10-second GIF here showing `vibesec init` → `vibesec exec "rm -rf /"` → BLOCKED.
-> Record with [terminal-gif](https://github.com/asciinema/asciinema) or [LICEcap](https://www.cockos.com/licecap/).
+https://github.com/dj2313/Vibesec/blob/main/docs/demo/vibesec-demo.mp4
+
+> **Watch the demo** — VibeSec in action: policy engine evaluating actions, blocking dangerous commands, and logging to the audit ledger.
 
 ---
 
